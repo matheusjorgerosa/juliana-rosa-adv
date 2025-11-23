@@ -19,12 +19,17 @@ def main():
     # Custom filename input
     output_filename = st.text_input("Nome do arquivo de saída (sem extensão)", placeholder="Ex: minha_transcricao")
 
+    # API Key Input
+    api_key = st.text_input("Gemini API Key", type="password", help="Insira sua chave de API do Gemini. Se não tiver uma, crie em https://aistudio.google.com/app/apikey")
+
     if uploaded_file is not None:
         st.audio(uploaded_file, format=f"audio/{uploaded_file.name.split('.')[-1]}")
 
         if st.button("Transcrever"):
             if not output_filename:
                 st.warning("Por favor, digite um nome para o arquivo de saída.")
+            elif not api_key and not os.getenv("GOOGLE_API_KEY"):
+                 st.warning("Por favor, insira sua chave de API do Gemini.")
             else:
                 with st.spinner("Transcrevendo... Isso pode levar alguns instantes."):
                     try:
@@ -35,7 +40,7 @@ def main():
 
                         # Transcribe
                         # Using default model or allowing user selection could be an enhancement
-                        transcription = transcribe_audio(temp_filename)
+                        transcription = transcribe_audio(temp_filename, api_key=api_key)
 
                         # Display result
                         st.success("Transcrição concluída!")

@@ -7,11 +7,12 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-def setup_gemini():
+def setup_gemini(api_key=None):
     """Configures the Gemini API with the API key."""
-    api_key = AIzaSyCGK7RkxzOTC4sCPN_SNhYqmn7xkwGgIdI
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found in environment variables. Please set it in .env file.")
+        api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise ValueError("GOOGLE_API_KEY not found in environment variables and not provided as argument.")
     genai.configure(api_key=api_key)
 
 def upload_to_gemini(path, mime_type=None):
@@ -45,9 +46,9 @@ def wait_for_files_active(files):
     print("...all files ready")
     print()
 
-def transcribe_audio(audio_path, model_name="gemini-2.5-pro"):
+def transcribe_audio(audio_path, model_name="gemini-2.5-pro", api_key=None):
     """Transcribes the audio file using Gemini."""
-    setup_gemini()
+    setup_gemini(api_key)
 
     # Create the model
     generation_config = {
