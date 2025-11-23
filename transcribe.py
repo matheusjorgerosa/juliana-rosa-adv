@@ -9,8 +9,8 @@ load_dotenv()
 
 def setup_gemini():
     """Configures the Gemini API with the API key."""
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
+    api_key = AIzaSyCGK7RkxzOTC4sCPN_SNhYqmn7xkwGgIdI
+        if not api_key:
         raise ValueError("GOOGLE_API_KEY not found in environment variables. Please set it in .env file.")
     genai.configure(api_key=api_key)
 
